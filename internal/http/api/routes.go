@@ -1,7 +1,9 @@
 package api
 
 import (
-	"github.com/tmavrin/igp-code-challenge/internal/component/accounts"
+	"github.com/gofiber/fiber/v2/middleware/basicauth"
+	"github.com/tmavrin/igp-code-challenge/internal/component/auth"
+	"github.com/tmavrin/igp-code-challenge/internal/component/email"
 	"github.com/tmavrin/igp-code-challenge/internal/http/api/signup"
 )
 
@@ -9,11 +11,26 @@ import (
 func (s *signupServer) routes() error {
 	r := s.fiberApp
 
-	accountsComponent := accounts.New(s.Resource.DB)
+	emailComponent := email.New()
+	authComponent := auth.New(
+		s.Resource.DB,
+		s.Config.Auth.JWTKey,
+		s.Config.Auth.JWTDuration,
+		emailComponent,
+	)
 
-	accountsRouter := signup.NewAccountsRouter(accountsComponent)
+	authRouter := signup.NewAuthRouter(authComponent)
 
-	r.Get("/accs", accountsRouter.Get)
+	r.Post("/auth/register", authRouter.Register)
+	r.Post("/auth/login", authRouter.Login)
+
+	r.Use("/docs/*", basicauth.New(basicauth.Config{
+		Users: map[string]string{
+			s.Config.Docs.Username: s.Config.Docs.Password,
+		},
+	}))
+
+	r.Static("/docs/", s.Config.Docs.Dir)
 
 	return nil
 }

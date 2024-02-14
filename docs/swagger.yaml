@@ -1,0 +1,75 @@
+definitions:
+  signup.loginResponse:
+    properties:
+      created:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      token:
+        type: string
+      updated:
+        type: string
+    type: object
+  types.AuthCredentials:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/types.AuthCredentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/signup.loginResponse'
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/types.AuthCredentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      summary: Register
+      tags:
+      - Auth
+swagger: "2.0"

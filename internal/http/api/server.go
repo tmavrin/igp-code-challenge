@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/tmavrin/igp-code-challenge/internal/http/api/signup"
 )
 
@@ -34,6 +35,7 @@ func NewSignupServer(ctx context.Context) (*signupServer, error) {
 	}
 
 	s.fiberApp = fiber.New(fiber.Config{AppName: s.Config.ServiceName})
+	s.fiberApp.Use(recover.New())
 
 	return &s, nil
 }

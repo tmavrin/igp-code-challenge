@@ -19,11 +19,11 @@ type Config struct {
 		JWTDuration time.Duration `envconfig:"JWT_DURATION" default:"24h"`
 	}
 
-	// Docs struct {
-	// 	Username string `envconfig:"DOCS_USERNAME" required:"true"`
-	// 	Password string `envconfig:"DOCS_PASSWORD" required:"true"`
-	// 	Dir      string `envconfig:"DOCS_DIR" required:"true"`
-	// }
+	Docs struct {
+		Username string `envconfig:"DOCS_USERNAME" required:"true"`
+		Password string `envconfig:"DOCS_PASSWORD" required:"true"`
+		Dir      string `envconfig:"DOCS_DIR" required:"true"`
+	}
 }
 
 func InitConfig(ctx context.Context) (Config, error) {

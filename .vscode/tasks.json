@@ -12,7 +12,7 @@
     {
       "label": "Stop DB",
       "command": "docker",
-      "args": ["compose", "-f", "docker-compose-debug.yaml", "down"],
+      "args": ["compose", "-f", "docker-compose-debug.yaml", "stop"],
       "type": "shell"
     }
   ]
