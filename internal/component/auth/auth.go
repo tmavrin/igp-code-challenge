@@ -20,7 +20,7 @@ import (
 //go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 -o ../../fake/component/auth.go --fake-name AuthProvider . Provider
 type Provider interface {
 	Login(ctx context.Context, credentials types.AuthCredentials) (types.Account, string, error)
-	Auth(ctx context.Context, token string, path string, method string) (types.Account, error)
+	Auth(ctx context.Context, token string) (types.Account, error)
 	Create(ctx context.Context, account types.AuthCredentials) error
 }
 
@@ -82,7 +82,7 @@ func (c *component) Login(ctx context.Context, credentials types.AuthCredentials
 }
 
 // To be used inside auth middleware that checks JWT token
-func (c *component) Auth(ctx context.Context, token string, path string, method string) (types.Account, error) {
+func (c *component) Auth(ctx context.Context, token string) (types.Account, error) {
 	var authClaims types.AuthClaims
 	_, err := jwt.ParseWithClaims(token, &authClaims, func(token *jwt.Token) (interface{}, error) {
 		return c.jwtKey, nil

@@ -10,13 +10,11 @@ import (
 )
 
 type AuthProvider struct {
-	AuthStub        func(context.Context, string, string, string) (types.Account, error)
+	AuthStub        func(context.Context, string) (types.Account, error)
 	authMutex       sync.RWMutex
 	authArgsForCall []struct {
 		arg1 context.Context
 		arg2 string
-		arg3 string
-		arg4 string
 	}
 	authReturns struct {
 		result1 types.Account
@@ -58,21 +56,19 @@ type AuthProvider struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *AuthProvider) Auth(arg1 context.Context, arg2 string, arg3 string, arg4 string) (types.Account, error) {
+func (fake *AuthProvider) Auth(arg1 context.Context, arg2 string) (types.Account, error) {
 	fake.authMutex.Lock()
 	ret, specificReturn := fake.authReturnsOnCall[len(fake.authArgsForCall)]
 	fake.authArgsForCall = append(fake.authArgsForCall, struct {
 		arg1 context.Context
 		arg2 string
-		arg3 string
-		arg4 string
-	}{arg1, arg2, arg3, arg4})
+	}{arg1, arg2})
 	stub := fake.AuthStub
 	fakeReturns := fake.authReturns
-	fake.recordInvocation("Auth", []interface{}{arg1, arg2, arg3, arg4})
+	fake.recordInvocation("Auth", []interface{}{arg1, arg2})
 	fake.authMutex.Unlock()
 	if stub != nil {
-		return stub(arg1, arg2, arg3, arg4)
+		return stub(arg1, arg2)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2
@@ -86,17 +82,17 @@ func (fake *AuthProvider) AuthCallCount() int {
 	return len(fake.authArgsForCall)
 }
 
-func (fake *AuthProvider) AuthCalls(stub func(context.Context, string, string, string) (types.Account, error)) {
+func (fake *AuthProvider) AuthCalls(stub func(context.Context, string) (types.Account, error)) {
 	fake.authMutex.Lock()
 	defer fake.authMutex.Unlock()
 	fake.AuthStub = stub
 }
 
-func (fake *AuthProvider) AuthArgsForCall(i int) (context.Context, string, string, string) {
+func (fake *AuthProvider) AuthArgsForCall(i int) (context.Context, string) {
 	fake.authMutex.RLock()
 	defer fake.authMutex.RUnlock()
 	argsForCall := fake.authArgsForCall[i]
-	return argsForCall.arg1, argsForCall.arg2, argsForCall.arg3, argsForCall.arg4
+	return argsForCall.arg1, argsForCall.arg2
 }
 
 func (fake *AuthProvider) AuthReturns(result1 types.Account, result2 error) {
