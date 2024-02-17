@@ -16,9 +16,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	server, err := api.NewSignupServer(ctx)
+	server, err := api.NewServer(ctx)
 	if err != nil {
-		log.Fatalf("failed to initialize signup api: %s", err)
+		log.Fatalf("failed to initialize api: %s", err)
 	}
 
 	sCtx, stop := signal.NotifyContext(ctx, os.Interrupt, syscall.SIGTERM)
@@ -33,6 +33,6 @@ func main() {
 
 	err = server.Close(ctx, 10*time.Second)
 	if err != nil {
-		log.Fatalf("failed to stop signup api: %s", err)
+		log.Fatalf("failed to stop api: %s", err)
 	}
 }

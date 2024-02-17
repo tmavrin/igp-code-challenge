@@ -10,8 +10,8 @@
       "request": "launch",
       "mode": "auto",
       "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/cmd/signup",
-      "envFile": "${workspaceFolder}/dev/local.env",
+      "program": "${workspaceFolder}/cmd/service",
+      "envFile": "${workspaceFolder}/dev/debug.env",
       "preLaunchTask": "Run DB",
       "postDebugTask": "Stop DB"
     }

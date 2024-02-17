@@ -6,7 +6,7 @@ ENV GOPRIVATE=github.com/tmavrin
 
 WORKDIR /go/src/github.com/tmavrin/igp-code-challenge/
 COPY . .
-RUN go build -o service cmd/api/main.go
+RUN go build -o service cmd/service/main.go
 
 # final image
 FROM alpine:3.19

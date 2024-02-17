@@ -9,27 +9,27 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/tmavrin/igp-code-challenge/internal/http/api/signup"
+	"github.com/tmavrin/igp-code-challenge/internal/http/api/service"
 )
 
 type signupServer struct {
-	Resource signup.Resource
-	Config   signup.Config
+	Resource service.Resource
+	Config   service.Config
 	fiberApp *fiber.App
 }
 
-func NewSignupServer(ctx context.Context) (*signupServer, error) {
+func NewServer(ctx context.Context) (*signupServer, error) {
 	var (
 		s   signupServer
 		err error
 	)
 
-	s.Config, err = signup.InitConfig(ctx)
+	s.Config, err = service.InitConfig(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize resources: %w", err)
 	}
 
-	s.Resource, err = signup.InitResource(ctx, s.Config)
+	s.Resource, err = service.InitResource(ctx, s.Config)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize resources: %w", err)
 	}
