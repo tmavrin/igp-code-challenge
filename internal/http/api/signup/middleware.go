@@ -1,24 +1,19 @@
 package signup
 
 import (
-	"strings"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/tmavrin/igp-code-challenge/internal/component/auth"
 )
 
 func Auth(component auth.Provider) func(*fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		token := c.GetReqHeaders()["Authorization"][0]
+		token := c.Cookies("X-Authorization")
+		// token := c.GetReqHeaders()["Authorization"][0]
 		if token == "" {
 			return fiber.ErrUnauthorized
 		}
-		parts := strings.Split(token, " ")
-		if len(parts) != 2 {
-			return fiber.ErrUnauthorized
-		}
 
-		account, err := component.Auth(c.Context(), parts[1])
+		account, err := component.Auth(c.Context(), token)
 		if err != nil {
 			return fiber.ErrUnauthorized
 		}
