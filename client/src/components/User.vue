@@ -18,7 +18,7 @@ const signup = async () => {
   try {
     await axios.post('http://localhost:3001/auth/register', unref(input));
   } catch (e) {
-    error.value = e.toString();
+    error.value = `${e.response.status}: ${e.response.data}`;
   }
 };
 
@@ -34,7 +34,7 @@ const login = async () => {
     state.value = 'notif';
     connect();
   } catch (e) {
-    error.value = e.toString();
+    error.value = `${e.response.status}: ${e.response.data}`;
   }
 };
 
@@ -67,10 +67,10 @@ const sendMessage = async () => {
 <template>
   <div class="user-box">
     <div class="inputs" v-if="state === 'login'">
-      <label for="email">Email:</label>
-      <input id="email" type="email" v-model="input.email" />
-      <label for="password">Password:</label>
-      <input id="password" type="password" v-model="input.password" />
+      <label>Email:</label>
+      <input type="email" v-model="input.email" />
+      <label>Password:</label>
+      <input type="password" v-model="input.password" />
 
       <div class="err" v-if="error">{{ error }}</div>
 

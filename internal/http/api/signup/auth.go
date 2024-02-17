@@ -2,9 +2,9 @@ package signup
 
 import (
 	"errors"
+	"net/mail"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
 	"github.com/tmavrin/igp-code-challenge/internal/component/auth"
 	"github.com/tmavrin/igp-code-challenge/internal/types"
 )
@@ -35,6 +35,15 @@ func (a *authRouter) Register(f *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	_, err = mail.ParseAddress(credentials.Email)
+	if err != nil {
+		return fiber.ErrBadRequest
+	}
+
+	if len(credentials.Password) < 6 {
+		return fiber.ErrBadRequest
+	}
+
 	err = a.component.Create(f.Context(), credentials)
 	if errors.Is(err, auth.ErrorUserExists) {
 		return fiber.ErrConflict
@@ -68,7 +77,6 @@ func (a *authRouter) Login(f *fiber.Ctx) error {
 	}
 
 	account, token, err := a.component.Login(f.Context(), credentials)
-	log.Debug(err)
 	if err != nil {
 		return fiber.ErrForbidden
 	}
