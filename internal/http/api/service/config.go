@@ -24,6 +24,11 @@ type Config struct {
 		Password string `envconfig:"DOCS_PASSWORD" required:"true"`
 		Dir      string `envconfig:"DOCS_DIR" required:"true"`
 	}
+
+	TLS struct {
+		Cert string `envconfig:"TLS_CERT"`
+		Key  string `envconfig:"TLS_KEY"`
+	}
 }
 
 func InitConfig(ctx context.Context) (Config, error) {

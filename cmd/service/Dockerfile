@@ -13,5 +13,6 @@ FROM alpine:3.19
 RUN apk update && apk add ca-certificates
 WORKDIR /app
 COPY --from=build-env /go/src/github.com/tmavrin/igp-code-challenge/service /app/
+COPY --from=build-env /go/src/github.com/tmavrin/igp-code-challenge/certs /app/
 COPY --from=build-env /go/src/github.com/tmavrin/igp-code-challenge/docs /app/docs
 ENTRYPOINT /app/service

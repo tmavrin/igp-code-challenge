@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"time"
@@ -43,7 +44,16 @@ func NewServer(ctx context.Context) (*signupServer, error) {
 func (s *signupServer) ListenAndServe() error {
 	s.fiberApp.Use(cors.New())
 	s.routes()
-	return s.fiberApp.Listen(":" + s.Config.Port)
+
+	if s.Config.TLS.Cert != "" && s.Config.TLS.Key != "" {
+		cert, err := tls.LoadX509KeyPair(s.Config.TLS.Cert, s.Config.TLS.Key)
+		if err != nil {
+			return err
+		}
+		return s.fiberApp.ListenTLSWithCertificate(":"+s.Config.Port, cert)
+	} else {
+		return s.fiberApp.Listen(":" + s.Config.Port)
+	}
 }
 
 func (s *signupServer) Close(ctx context.Context, timeout time.Duration) error {
