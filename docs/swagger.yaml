@@ -1,5 +1,5 @@
 definitions:
-  signup.loginResponse:
+  service.loginResponse:
     properties:
       created:
         type: string
@@ -10,6 +10,11 @@ definitions:
       token:
         type: string
       updated:
+        type: string
+    type: object
+  service.notificationRequest:
+    properties:
+      message:
         type: string
     type: object
   types.AuthCredentials:
@@ -40,7 +45,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/signup.loginResponse'
+            $ref: '#/definitions/service.loginResponse'
         "403":
           description: Forbidden
         "500":
@@ -72,4 +77,39 @@ paths:
       summary: Register
       tags:
       - Auth
+  /user/:id/notifications:
+    post:
+      consumes:
+      - application/json
+      description: Sends a notification to user id trough websocket
+      parameters:
+      - description: body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/service.notificationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: SendNotificationToUser
+      tags:
+      - Notifications
+  /ws/user/notifications:
+    get:
+      description: Connect to a WebSocket to receive notifications
+      parameters:
+      - description: X-Authorization
+        in: header
+        name: Cookie
+        required: true
+        type: string
+      responses: {}
+      summary: NotificationsWebSocket
+      tags:
+      - Notifications
 swagger: "2.0"

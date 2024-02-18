@@ -44,6 +44,8 @@ func New() *component {
 	return c
 }
 
+// This is the simplest solution I could think of without introducing some 3rd party service
+// It would probably make more sense to take this out from the REST API into it's own microservice
 func (c *component) runMsgService() {
 	for {
 		select {

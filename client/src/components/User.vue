@@ -17,6 +17,7 @@ const signup = async () => {
   error.value = null;
   try {
     await axios.post('http://localhost:3001/auth/register', unref(input));
+    login();
   } catch (e) {
     error.value = `${e.response.status}: ${e.response.data}`;
   }

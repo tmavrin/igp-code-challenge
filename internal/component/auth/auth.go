@@ -98,7 +98,6 @@ func (c *component) Auth(ctx context.Context, token string) (types.Account, erro
 }
 
 func (c *component) Create(ctx context.Context, credentials types.AuthCredentials) error {
-
 	bytes, err := bcrypt.GenerateFromPassword([]byte(credentials.Password), 12)
 	if err != nil {
 		return err

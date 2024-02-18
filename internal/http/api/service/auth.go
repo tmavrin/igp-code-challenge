@@ -77,8 +77,10 @@ func (a *authRouter) Login(f *fiber.Ctx) error {
 	}
 
 	account, token, err := a.component.Login(f.Context(), credentials)
-	if err != nil {
-		return fiber.ErrForbidden
+	if errors.Is(err, auth.ErrorInvalidCredentials) {
+		return fiber.ErrUnauthorized
+	} else if err != nil {
+		return err
 	}
 
 	return f.JSON(loginResponse{Account: account, Token: token})

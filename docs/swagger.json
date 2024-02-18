@@ -32,7 +32,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/signup.loginResponse"
+                            "$ref": "#/definitions/service.loginResponse"
                         }
                     },
                     "403": {
@@ -80,10 +80,63 @@
                     }
                 }
             }
+        },
+        "/user/:id/notifications": {
+            "post": {
+                "description": "Sends a notification to user id trough websocket",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "SendNotificationToUser",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/service.notificationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/ws/user/notifications": {
+            "get": {
+                "description": "Connect to a WebSocket to receive notifications",
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "NotificationsWebSocket",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "X-Authorization",
+                        "name": "Cookie",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
-        "signup.loginResponse": {
+        "service.loginResponse": {
             "type": "object",
             "properties": {
                 "created": {
@@ -99,6 +152,14 @@
                     "type": "string"
                 },
                 "updated": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.notificationRequest": {
+            "type": "object",
+            "properties": {
+                "message": {
                     "type": "string"
                 }
             }

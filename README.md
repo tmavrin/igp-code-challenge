@@ -1,3 +1,34 @@
+## IGP Code Challenge
+
+### Running code
+
+You can run the code with docker compose like:
+
+```sh
+  docker compose up --build
+```
+
+It will spin up:
+
+- PostgreSQL Database
+- API Server that contains solution to the challenge
+- Web Server that contains frontend to test the challenge
+
+#### Once the server is up, the docs are available at:
+
+```
+localhost:3001/docs
+```
+
+#### Client to test the API will be served at:
+
+```
+localhost:80
+```
+
+### Code challenge task:
+
+```
 Potrebno je dizajnirati i implementirati sljedeće:
 
 - Registraciju i prijavu korisnika
@@ -18,3 +49,4 @@ negdje u projektu, na bilo koji način.
 
 Rok za rješavanje zadatka je tjedan dana, a rješenje je potrebno poslati u obliku git repozitorija
 (Github, Bitbucket, Gitlab i sl.)
+```

@@ -42,7 +42,6 @@ func NewServer(ctx context.Context) (*signupServer, error) {
 
 func (s *signupServer) ListenAndServe() error {
 	s.fiberApp.Use(cors.New())
-
 	s.routes()
 	return s.fiberApp.Listen(":" + s.Config.Port)
 }

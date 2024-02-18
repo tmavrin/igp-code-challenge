@@ -1,3 +1,4 @@
+# For debuging purposes, in this case integrated with VS Code debugging
 services:
   postgres:
     build:
