@@ -126,6 +126,19 @@ func TestLogin(t *testing.T) {
 					},
 				},
 			},
+			body:           `{ "email": "unknown@email.com","password":"bad-password"}`,
+			expectedCode:   http.StatusUnauthorized,
+			expectedOutput: "Unauthorized",
+		},
+		{
+			name: "it should return unauthorized on no user",
+			fields: fields{
+				accountsProvider: &component.AuthProvider{
+					LoginStub: func(ctx context.Context, ac types.AuthCredentials) (types.Account, string, error) {
+						return types.Account{}, "", auth.ErrorUserNotFound
+					},
+				},
+			},
 			body:           `{ "email": "unknown@email.com","password":"password"}`,
 			expectedCode:   http.StatusUnauthorized,
 			expectedOutput: "Unauthorized",
